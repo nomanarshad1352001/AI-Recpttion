@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+:root {
+  --gold: #b58a3a;
+  --gold-light: #ead9aa;
+  --gold-dark: #806023;
+  --ink: #17312e;
+  --muted: #6e7773;
+  --paper: #f7f4ed;
+  --surface: #fffdf8;
+  --line: #e4ded2;
+  --sage: #dce8e2;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Jost', system-ui, -apple-system, sans-serif;
+}
+
+h1, h2, h3, .font-serif { font-family: 'Playfair Display', Georgia, serif; }
+button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+
+::-webkit-scrollbar { width: 7px; height: 7px; }
+::-webkit-scrollbar-track { background: #eee9df; }
+::-webkit-scrollbar-thumb { border: 2px solid #eee9df; border-radius: 999px; background: #b4aaa0; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+::selection { background: #d9c186; color: var(--ink); }
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, #806023 0%, #b58a3a 48%, #7c5b1e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-glow { box-shadow: 0 18px 60px rgba(50, 58, 52, .09), 0 3px 16px rgba(181, 138, 58, .08); }
+.gold-glow-strong { box-shadow: 0 24px 80px rgba(50, 58, 52, .12), 0 8px 30px rgba(181, 138, 58, .14); }
+
+.grain-overlay::before {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  content: '';
+  opacity: .38;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.035'/%3E%3C/svg%3E");
+}
+
+.hairline { height: 1px; background: linear-gradient(90deg, transparent, rgba(181, 138, 58, .55), transparent); }
+.hairline-vertical { width: 1px; background: linear-gradient(180deg, transparent, rgba(181, 138, 58, .55), transparent); }
+
+@keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+.animate-shimmer { animation: shimmer 3s linear infinite; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .55), transparent); background-size: 200% 100%; }
+@keyframes ambient-pulse { 0%, 100% { opacity: .42; transform: scale(1); } 50% { opacity: .68; transform: scale(1.05); } }
+.animate-ambient { animation: ambient-pulse 6s ease-in-out infinite; }
+@keyframes float-slow { 0%, 100% { transform: translate(0, 0) rotate(0); } 33% { transform: translate(18px, -14px) rotate(2deg); } 66% { transform: translate(-9px, 9px) rotate(-2deg); } }
+.animate-float-slow { animation: float-slow 12s ease-in-out infinite; }
+@keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+.animate-blink { animation: blink 1s step-end infinite; }
+@keyframes draw-line { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.animate-draw-line { animation: draw-line 1.2s cubic-bezier(.16, 1, .3, 1) forwards; transform-origin: left; }
+@keyframes voice-wave { 0%, 100% { transform: scaleY(.35); } 50% { transform: scaleY(1); } }
+.voice-bar { animation: voice-wave .8s ease-in-out infinite; transform-origin: center; }
+
+.card-lux {
+  position: relative;
+  border: 1px solid var(--line);
+  background: rgba(255, 253, 248, .94);
+  box-shadow: 0 10px 35px rgba(39, 52, 48, .045);
+  transition: border-color .35s ease, box-shadow .35s ease, transform .35s cubic-bezier(.16, 1, .3, 1);
+}
+.card-lux:hover { border-color: rgba(181, 138, 58, .38); box-shadow: 0 20px 55px rgba(39, 52, 48, .09); transform: translateY(-2px); }
+
+.input-lux {
+  border: 1px solid #ded8cd;
+  background: rgba(255, 255, 255, .86);
+  color: var(--ink);
+  transition: border-color .25s ease, box-shadow .25s ease, background .25s ease;
+}
+.input-lux::placeholder { color: #9a9f9c; }
+.input-lux:focus { outline: none; border-color: rgba(181, 138, 58, .7); background: #fff; box-shadow: 0 0 0 3px rgba(181, 138, 58, .11); }
+
+.btn-gold {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #d8bd76 0%, #bd923e 52%, #9b7128 100%);
+  color: #102522;
+  box-shadow: 0 8px 24px rgba(151, 108, 32, .16);
+  transition: box-shadow .3s ease, transform .3s ease;
+}
+.btn-gold::after { position: absolute; inset: 0; content: ''; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .38), transparent); background-position: -200% center; background-size: 200% 100%; transition: background-position .65s ease; }
+.btn-gold:hover::after { background-position: 200% center; }
+.btn-gold:hover { box-shadow: 0 12px 28px rgba(151, 108, 32, .24); transform: translateY(-1px); }
+
+/* Compatibility layer for the existing CRUD pages while retaining their tested logic. */
+.light-app [class*="bg-[#0a0a0a]"] { background-color: var(--paper) !important; }
+.light-app [class*="bg-[#0d0d0d]"] { background-color: var(--surface) !important; }
+.light-app [class*="bg-[#141414]"] { background-color: #f0ece4 !important; }
+.light-app [class*="text-[#f5f1e8]"] { color: var(--ink) !important; }
+.light-app [class*="text-[#e8e4da]"] { color: #29413d !important; }
+.light-app [class*="text-[#d5d0c5]"] { color: #435550 !important; }
+.light-app [class*="text-[#c5c0b5]"] { color: #596863 !important; }
+.light-app [class*="text-[#e5d5a8]"] { color: #8b6727 !important; }
+.light-app [class*="text-[#a8a8a8]"] { color: #66736e !important; }
+.light-app [class*="text-[#8a8a8a]"] { color: #75807c !important; }
+.light-app [class*="text-[#6a6a6a]"] { color: #7c8783 !important; }
+.light-app [class*="text-[#5a5a5a]"] { color: #929b97 !important; }
+.light-app [class*="text-[#3a3a3a]"] { color: #b4bbb8 !important; }
+.light-app [class*="border-[#2a2a2a]"], .light-app [class*="border-[#3a3a3a]"] { border-color: #ddd7cc !important; }
+.light-app [class*="border-white/"] { border-color: #e7e1d7 !important; }
+.light-app [class*="divide-white/"] > :not(:last-child) { border-color: #e7e1d7 !important; }
+.light-app [class*="bg-white/["] { background-color: rgba(25, 64, 58, .035) !important; }
+.light-app [class*="hover:bg-white/"]:hover { background-color: rgba(25, 64, 58, .045) !important; }
+.light-app .text-emerald-400 { color: #08745c !important; }
+.light-app .text-amber-400 { color: #9a6507 !important; }
+.light-app .text-red-400 { color: #b83c42 !important; }
+.light-app select.input-lux { background-color: #fff !important; }
+.light-app .light-image-copy, .light-app .light-image-copy * { color: #fffdf8 !important; }
+
+@media (max-width: 767px) {
+  .admin-main { margin-left: 76px !important; }
+}
